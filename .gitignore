@@ -1,0 +1,12 @@
+# R
+.Rhistory
+.RData
+.Rproj.user
+
+# Data artifacts
+data/
+*.rds
+
+# Figures
+*.png
+*.pdf
