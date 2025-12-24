@@ -1,1 +1,68 @@
 # Breakout-Hitters
+
+This project builds a reproducible modeling pipeline to predict **MLB hitter breakout seasons**
+using Statcast batted-ball metrics and expected statistics.
+
+A “breakout” is defined as a player whose year-over-year change in wOBA ranks in the
+top 20% of the league for that season.
+
+---
+
+## 📊 Project Overview
+
+**Goal:**  
+Predict which hitters are most likely to experience a breakout in the following season
+based on Statcast indicators.
+
+**Approach:**
+- Pull Statcast leaderboard data (2015–2025)
+- Engineer year-over-year offensive changes
+- Define breakout labels by seasonal distribution
+- Train a logistic regression model
+- Evaluate performance using ROC AUC and calibration plots
+
+---
+
+## 🧱 Pipeline Structure
+
+| Script | Purpose |
+|------|--------|
+| `PullStatcastLeaders.R` | Pulls Statcast leaderboard data via `baseballr` |
+| `BuildModelTable.R` | Merges features, engineers ΔwOBA targets |
+| `TrainModel.R` | Trains logistic regression breakout model |
+| `Plot AUC.R` | Evaluates ROC AUC, calibration, and predictions |
+
+Generated data and models are stored locally in `data/` and excluded from Git tracking.
+
+---
+
+## 📈 Model Details
+
+- **Model type:** Logistic regression (`glm`)
+- **Framework:** `tidymodels`
+- **Features include:**
+  - Plate appearances
+  - wOBA / xwOBA
+  - Average & max exit velocity
+  - Barrel rate
+  - Sweet spot %
+  - EV95%
+
+- **Target:**  
+  Binary breakout indicator (top 20% ΔwOBA within season)
+
+- **Evaluation:**
+  - ROC AUC
+  - Decile-based calibration plot
+
+---
+
+## ▶️ How to Run
+
+From the project root:
+
+```r
+source("PullStatcastLeaders.R")
+source("BuildModelTable.R")
+source("TrainModel.R")
+source("Plot AUC.R")
